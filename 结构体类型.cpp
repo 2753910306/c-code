@@ -7,9 +7,12 @@ struct Book
 };
 int main()
 {
-	struct Book b1 = {"CÓïÑÔ³ÌĞòÉè¼Æ",55};
-	printf("ÊéÃû£º%s\n", b1.name);
-	printf("¼Û¸ñ£º%d\n", b1.pic);
+	struct Book b1 = {"Cè¯­è¨€ç¨‹åºè®¾è®¡",55};
+	struct Book *p = &b1;
+	printf("ä¹¦åï¼š%s\n",p->name);
+	printf("ä»·æ ¼ï¼š%d\n",p->pic);
+	printf("ä¹¦åï¼š%s\n", b1.name);
+	printf("ä»·æ ¼ï¼š%d\n", b1.pic);
 	return 0;
 
 }
