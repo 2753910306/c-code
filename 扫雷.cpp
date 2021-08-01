@@ -33,12 +33,71 @@ void Findmine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
 				DispalyBoard(mine, row, col);
 				break;
 			}
+			if (mine[x][y] == '0')
+			{
+				int count = get_mine_count(mine, x, y);
+				show[x][y] = count + '0';
+				win++;
+				if (mine[x-1][y] == '0')
+				{
+					count = get_mine_count(mine, x - 1, y);
+					show[x - 1][y] = count + '0';
+					win++;
+					
+				}
+				if (mine[x - 1][y - 1] == '0')
+				{
+					count = get_mine_count(mine, x - 1, y - 1);
+					show[x - 1][y - 1] = count + '0';
+					win++;
+					
+				}
+				if (mine[x - 1][y + 1] == '0')
+				{
+					count = get_mine_count(mine, x - 1, y + 1);
+					show[x - 1][y + 1] = count + '0'; 
+					win++;
+				}
+				if (mine[x][y - 1] == '0')
+				{
+					count = get_mine_count(mine, x, y - 1);
+					show[x][y - 1] = count + '0'; 
+					win++;
+				}
+				if (mine[x ][y + 1] == '0')
+				{
+					count = get_mine_count(mine, x, y + 1);
+					show[x][y + 1] = count + '0'; 
+					win++;
+				}
+				if (mine[x + 1][y - 1] == '0')
+				{
+					count = get_mine_count(mine, x + 1, y - 1);
+					show[x + 1][y - 1] = count + '0'; 
+					win++;
+				}
+				if (mine[x + 1][y] == '0')
+				{
+					count = get_mine_count(mine, x + 1, y);
+					show[x + 1][y] = count + '0'; 
+					win++;
+				}
+				if (mine[x +1 ][y + 1] == '0')
+				{
+					count = get_mine_count(mine, x + 1, y + 1);
+					show[x + 1][y + 1] = count + '0'; 
+					win++;
+				}
+				DispalyBoard(show, row, col);//打印走一步后的棋盘
+				
+			}
 			else//不是雷
 			{
 				//计算（x，y）周围的雷
 				int count = get_mine_count(mine, x, y);
+
 				show[x][y] = count + '0';
-				DispalyBoard(show, row, col);
+				DispalyBoard(show, row, col);//打印走一步后的棋盘
 				win++;
 			}
 		}
@@ -50,7 +109,7 @@ void Findmine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
 	if (win == row * col - EASY_count)
 	{
 		printf("恭喜你排雷成功!\n");
-		DispalyBoard(mine, row, col);
+		DispalyBoard(mine, row, col);//打印棋盘，告诉你雷的位置
 	}
 }
 void Settine(char board[ROWS][COLS], int row, int col)
