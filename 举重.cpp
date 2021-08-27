@@ -14,13 +14,26 @@
 //输出：
 //6
 
+//思路，先找最大的，然后再往下找
+//一直相加判断大小，利用dp【0】为真这个条件来实现逼近我们的最大值
+
+
 #include<stdio.h>
 #include<string.h>
 
+int max(int a, int b)
+{
+	int max = a;
+	if (a < b)
+	{
+		max = b;
+	}
+	return max;
+}
 int main()
 {
 	int i = 0, n = 0, j = 0;
-	int m = 0, flag = 0;
+	int maxCapacity = 0;
 	int weights[1000] = { NULL };
 	printf("器材重量：");
 	do
@@ -29,25 +42,24 @@ int main()
 	} while (getchar() != '\n');
 
 	printf("最大承受重量：");
+	scanf_s("%d", &maxCapacity);
 
-	scanf_s("%d", &m);
+	int answer=0;
+	char dp[1000] = { NULL };
+	dp[0] = true;
 
-	for (i = 0; i < n-1; i++)
+	for (int i = 0; i < n; i++)
 	{
-		int flag = weights[i];
-		for (j = i + 1; j < n; j++)
+		int weight = weights[i];
+		for (int j = maxCapacity; j >= weight; j--)
 		{
-			if (flag <= m)
+			if (dp[j - weight]) 
 			{
-				flag = weights[i] + weights[j];
-			}
-			else
-			{
-				continue;
+				dp[j] = true;
+				answer = max(answer, j);
 			}
 		}
 	}
-	printf("max=%d", flag);
-	
+	printf("max=%d", answer);
 	return 0;
-}
+} 
