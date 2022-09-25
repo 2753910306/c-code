@@ -1,9 +1,7 @@
 #pragma once
-#ifndef _MYFUN_H
-#define _MYFUN_H
-
-int gcd(int n, int m);
-int  least(int n, int m);
-
+#ifndef _myfun_H
+#define _myfun_H
+#include<cmath>
+double sinh(double x);
 
 #endif
