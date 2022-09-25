@@ -2,8 +2,6 @@
 #ifndef _MYFUN_H
 #define _MYFUN_H
 
-int gcd(int n, int m);
-int  least(int n, int m);
-
+long long fac(int n);
 
 #endif
