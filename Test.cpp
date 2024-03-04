@@ -1,86 +1,107 @@
-#include"test.h"
+#include"Test.h"
 
-void Test()
+void Test1(void)
 {
-	cout << "测试中……" << endl;
-	Test_0();
-	Test_1();
-	Test_2();
-	Test_3();
+	cout << "开始测试：\n\n";
+	Test1_1();
+	Test1_2();
+	Test1_3();
+	Test1_4();
+	cout << "测试通过！" << endl;
 
-		cout << "通过所有测试！" << endl;
 }
-void Test_0(void)
+void Test2(void)
 {
-	Complex* c = NULL;
-	Complex c1(1.0, 1.0);
-	Complex c2(1.0, 1.0);
-	Complex ret(0, 0);
-	c->print(c1);
-	cout << endl;
-	c->print(c2);
-	cout << endl;
-	cout << "c1+c2 = ";
-	ret = c1 + c2;
-	c->print(ret);
-	cout << endl;
-	c->print(ret);
-	cout << "的绝对值为：" << c->ComplexAbs() << endl<<endl;
+	cout << "开始测试：\n\n";
+	Test2_1();
+	Test2_2();
+	Test2_3();
+	Test2_4();
+	cout << "测试通过！" << endl;
 }
-
-//测试构造函数
-void Test_1(void)
+/*模拟手动输入*/
+void Test1_1(void)
 {
-	Complex* c = NULL;
-	Complex c1(-1.0, 1.0);
-	Complex c2(5.0, -1.0);
-	Complex ret(0, 0);
-	c->print(c1);
-	cout << endl;
-	c->print(c2);
-	cout << endl;
-	cout << "c1-c2 = ";
-	ret = c1 - c2;
-	c->print(ret);
-	cout << endl;
-	c->print(ret);
-	cout << "的绝对值为：" << c->ComplexAbs() << endl<<endl;
+	string str[100] = { "" };
+	char c = getchar();//将回车字符读取掉，再输入
+	numConv c1(str);
+	c1.input();
+	c1.chineseConv();
+	c1.print_chinese();
+	c1.print_num();
 }
-
-void Test_2(void)
+/*测试*/
+void Test1_2(void)
 {
-	Complex* c = NULL;
-	Complex c1(-12.0, 1.0);
-	Complex c2(4.0, -10.0);
-	Complex ret(0, 0);
-	c->print(c1);
-	cout << endl;
-	c->print(c2);
-	cout << endl;
-	cout << "c1*c2 = ";
-	ret = c1 * c2;
-	c->print(ret);
-	cout << endl;
-	c->print(ret);
-	cout << "的绝对值为：" << c->ComplexAbs() << endl << endl;
+	cout << "\n测试数据1：\n";
+	string str[100] = { "一","千","万","元","三","角","三","分" };
+	numConv c1(str);
+	c1.chineseConv();
+	c1.print_chinese();
+	c1.print_num();
+	cout << "测试成功！\n\n";
+}
+void Test1_3(void)
+{
+	cout << "测试数据2：\n";
+	string str[100] = { "一","千","零","一","元","三","角","三","分" };
+	numConv c1(str);
+	c1.chineseConv();
+	c1.print_chinese();
+	c1.print_num();
+	cout << "测试成功！\n\n";
+}
+void Test1_4(void)
+{
+	cout << "测试数据3：\n";
+	string str1[100] = { "一","千","零","一","万","元","三","角","三","分" };
+	numConv c1(str1);
+	c1.chineseConv();
+	c1.print_chinese();
+	c1.print_num();
+	cout << "测试成功！\n\n";
 }
 
-void Test_3(void)
+/*模拟手动输入*/
+void Test2_1(void)
 {
-	Complex* c = NULL;
-	Complex c1(3.0, 5.0);
-	Complex c2(1.0, -1.0);
-	Complex ret(0, 0);
-	c->print(c1);
-	cout << endl;
-	c->print(c2);
-	cout << endl;
-	cout << "c1/c2 = ";
-	ret = c1 / c2;
-	c->print(ret);
-	cout << endl;
-	c->print(ret);
-	cout << "的绝对值为：" << c->ComplexAbs() << endl<<endl;
+	long double n = 0.0;
+	cout << "\n请输入数字：\n";
+	cin >> n;
+	Calc c1(n);
+	c1.Calc_Init();
+	c1.print_Num();
+	c1.convert();
+	c1.print_Hanzi();
 }
-
-
+/*测试*/
+void Test2_2(void)
+{
+	cout << "测试数据1：\n";
+	Calc c2(1000000000.01);
+	c2.Calc_Init();
+	c2.print_Num();
+	c2.convert();
+	c2.print_Hanzi();
+	cout << "测试成功！\n\n";
+}
+void Test2_3(void)
+{
+	cout << "测试数据2：\n";
+	Calc c3(100000.00);
+	c3.Calc_Init();
+	c3.print_Num();
+	c3.convert();
+	c3.print_Hanzi();
+	cout << "测试成功！\n\n";
+}
+void Test2_4(void)
+{
+	cout << "测试数据3：\n";
+	Calc c5(1001.01);
+	c5.Calc_Init();
+	c5.print_Num();
+	c5.convert();
+	c5.print_Hanzi();
+	cout << "测试成功！\n\n";
+}
