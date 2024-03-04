@@ -1,130 +1,112 @@
 #include"calc.h"
-#include<iostream>
-void calc(long double a)
+
+//数字初始化赋值
+Calc::Calc(long double n)
 {
-	int count1 = 0;
-	int count2 = 0;
-	int count3 = 2;
-	const char* chineseNum[10] = { "零","壹","贰","叁","肆","伍" ,"陆","柒","捌","玖" };
-	const char* chinesewei[] = { "", "拾", "佰", "仟" };
-	const char* chineseWei[] = { "", "萬", "亿", "萬亿" };
-	long long t = a;
-	double num = (a - t) + 0.000001;
-	int num100 = num * 100;
-	int xs[2];
-	xs[1] = int(num * 100) % 10;
-	xs[0] = int(num * 100) / 10 % 10;
+	num = n;
+	count1 = 0;
+}
+
+//变量初始化
+void Calc::Calc_Init(void)
+{
+	int xsnum = int(((num - long long(num)) + 0.001) * 100);
+	long long zsnum = (long long)num;
+	while (zsnum / pow(10, zscount) >= 1)//一定要大于等于1，不然个位无法输出
+	{
+		zscount++;
+	}
 	int i = 0;
-	while (t > 0)
+	for (i = 0; i < zscount; i++)
 	{
-		t = t / 10;
-		count1++;
+		zs[i] = long long(zsnum / pow(10, zscount - i - 1));
+		zs[i] = zs[i] % 10;
 	}
-	int* arr = new int[count1];
-	t = a;
-	count2 = count1 - 1;
-	while (t > 0)
+	xs[0] = xsnum / 10 % 10;
+	xs[1] = xsnum / 1 % 10;
+	xscount = 2;
+	if (xs[0] == 0 && xs[1] == 0)
 	{
-		arr[count2--] = t % 10;
-		t = t / 10;
-
+		xscount = 0;
 	}
-	for (i = 0; i < count1; i++)
+	else if (xs[1] == 0)
 	{
-		/*个位*/
-
-		if (count1 - i < 5)
+		xscount = 1;
+	}
+}
+//数字转换为汉字
+void Calc::convert(void)
+{
+	int i = 0;
+	for (i = 0; i < zscount; i++)
+	{
+		zsconv[i] = chineseNum[zs[i]];
+	}
+	for (i = 0; i < xscount; i++)
+	{
+		xsconv[i] = chineseNum[xs[i]];
+	}
+}
+//输出原本数字
+void Calc::print_Num(void)
+{
+	cout << fixed << dec << setprecision(2) << num + 0.001 << endl;
+}
+//输出汉字
+void Calc::print_Hanzi(void)
+{
+	if (num == 0)
+	{
+		cout << chineseNum[0];
+	}
+	else if (num < 0)
+	{
+		cout << "请输入正确格式！";
+	}
+	else
+	{
+		for (int i = 0; i < zscount; i++)
 		{
-			if (arr[i] == 0)
+			if ((zs[i] == 0 && zs[i + 1] == 0 && i < zscount - 1 && (zscount - i - 1) % 4 != 0) == 0)
 			{
-				if (arr[i + 1] != 0 && i != count1 - 1)
+				//为了防止出现零万的现象
+				if (zs[i] == 0 && (zscount - i - 1) % 4 == 0)
 				{
-					cout << chineseNum[arr[i]];
+					if (zscount >= 8 && zs[i - 1] == 0 && zs[i - 2] == 0 && zs[i - 3] == 0)
+					{
+						//为了防止出现亿万的现象
+					}
+					else
+						digit(zscount - i - 1);
+				}
+				else if (zs[i] == 0)
+				{
+					cout << zsconv[i];
+				}
+				else
+				{
+					cout << zsconv[i];
+					digit(zscount - i - 1);
 				}
 			}
-			else
-			{
-				cout << chineseNum[arr[i]];
-				digit(count1 - i - 1);
-			}
-		}
-		/*万位*/
-		else if (count1 - i >= 5 && count1 - i < 9)
-		{
-			if (arr[i] == 0)
-			{
-				if (arr[i + 1] != 0 && i != count1 - 1 - 4)
-				{
-					cout << chineseNum[arr[i]];
-				}
-			}
-			else
-			{
-				cout << chineseNum[arr[i]];
-				digit(count1 - i - 1 - 4);
-			}
-			if (count1 - i == 5)cout << "萬";
-		}
-		/*亿位*/
-		else if (count1 - i >= 9 && count1 - i < 13)
-		{
-			if (arr[i] == 0)
-			{
-				if (arr[i + 1] != 0 && i != count1 - 1 - 8)
-				{
-					cout << chineseNum[arr[i]];
-				}
-			}
-			else
-			{
-				cout << chineseNum[arr[i]];
-				digit(count1 - i - 1 - 8);
-			}
-			if (count1 - i == 9)cout << "亿";
-		}
-		/*万亿*/
-		else if (count1 - i >= 13 && count1 - i < 17)
-		{
-			if (arr[i] == 0)
-			{
-				if (arr[i + 1] != 0 && i != count1 - 1 - 12)
-				{
-					cout << chineseNum[arr[i]];
-				}
-			}
-			else
-			{
-				cout << chineseNum[arr[i]];
-				digit(count1 - i - 1 - 12);
-			}
-			if (count1 - i == 13)cout << "萬亿";
 		}
 	}
 	cout << "元";
-	/*小数位*/
-	for (i = 0; i < count3; i++)
+	if (xscount != 0)
 	{
-		if (xs[i] == 0)
+		for (int i = 0; i < xscount; i++)
 		{
-			if (xs[i + 1] != 0)
+			if (xsconv[i] != "零")
 			{
-				cout << chineseNum[xs[i]];
+				cout << xsconv[i];
 				decimal_digit(i);
 			}
 		}
-		else
-		{
-			cout << chineseNum[xs[i]];
-			decimal_digit(i);
-		}
 	}
-	cout << endl;
-	cout << fixed << setprecision(2) << endl << a << endl;
-	cout << endl;
-	delete(arr);
+	cout << endl << endl;
 }
 
-void digit(int t)
+void Calc::digit(int t)
 {
 	if (t > 0)
 	{
@@ -134,12 +116,20 @@ void digit(int t)
 		case 1:cout << "拾"; break;
 		case 2:cout << "佰"; break;
 		case 3:cout << "仟"; break;
+		case 4:cout << "萬"; break;
+		case 5:cout << "拾"; break;
+		case 6:cout << "佰"; break;
+		case 7:cout << "仟"; break;
+		case 8:cout << "亿"; break;
+		case 9:cout << "拾"; break;
+		case 10:cout << "佰"; break;
+		case 11:cout << "仟"; break;
+		case 12:cout << "萬"; break;
 		default:break;
 		}
 	}
 }
-
-void decimal_digit(int t)
+void Calc::decimal_digit(int t)
 {
 	switch (t)
 	{
@@ -147,20 +137,5 @@ void decimal_digit(int t)
 	case 1:cout << "分"; break;
 	default:break;
 	}
-}
-
-/*计算后面连续的0的个数,现在不用了*/
-int behind_zero_num(int* a, int n)
-{
-	int count = 0;
-	int i = 0;
-	for (i = 1; i < n; i++)
-	{
-		if (a[i - 1] == 0 && a[i] == 0)
-			count++;
-		else
-			count = 0;
-	}
-	return count;
 }
 
